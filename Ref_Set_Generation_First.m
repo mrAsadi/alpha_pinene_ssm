@@ -1,9 +1,9 @@
-function [ Ref_Set ] = Ref_Set_Generation_First( S )
+function [ Ref_Set ] = Ref_Set_Generation_First( S,expt,expx )
 best=6;
-Result = Simulate(S);
+Result = Simulate(S,expt,expx);
 Result = sortrows(Result,6);
 % Result(:,6)=[];
-Ref_Set=[];
+Ref_Set=zeros(6,6);
 h=best/2;
 m=size(S,1);
 f_size=size(Result,1);

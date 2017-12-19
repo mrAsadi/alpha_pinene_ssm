@@ -1,31 +1,42 @@
+clc;
+clear;
 diff=10000000;
 time=1;
 result=0;
-%p=rand(5,1)/10000;
-p=[0.0000593,0.0000296,0.0000205,0.000275,0.00004];
-tspan = 0:1:40000;
-tic;
-[t,x]=ode23s(@(t,x)OdeSystem(t,x,p),tspan,[100,0,0,0,0]);
-toc;
 filename='main.txt';
 data=csvread(filename);
-expt=data(:,1);
+expt=zeros(9,1);
+expt(2:9,:)=data(:,1);
 expx=data(1:8,2:6);
-testT=zeros(size(t));
-testX=zeros(size(x));
+p=[0.0000593,0.0000296,0.0000205,0.000275,0.00004];
+%p=rand(5,1);
+
+A = 1;
+B = 2;
+tspan = expt;
+y0 = [100,0,0,0,0];
+tic;
+[t,y] = ode15s(@(t,y) odefcn(t,y,p), tspan, y0);
+toc;
+tic;
+[t,x]=ode15s(@(t,x)OdeSystem(t,x,p),expt,[100,0,0,0,0]);
+toc;
+tic;
+[t1,x1]=ode15s(@(t1,x1)OdeSystem(t1,x1,p),1:1:40000,[100,0,0,0,0]);
+toc;
+
 difft=0;
 for i=1:8
-    for j=1:5
-        testX(expt(i),j)= expx(i,j);
-        difft = difft + (expx(i,j)- x(expt(i),j))^2 ;
-    end
+    A = expx(i,:);
+    B = x(i+1,:);
+    temp =(A - B).^2;
+    difft =difft + sum(temp);
 end
 if(difft <= diff)
     diff = difft;
     result(time,1) = diff;
     time = time + 1;
 end
-testX(testX==0) = nan ;
-plot(t,x,t,testX,'.');
+plot(t,x,t,x,'.');
 figure;
 plot(result);
