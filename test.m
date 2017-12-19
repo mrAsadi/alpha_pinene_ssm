@@ -1,4 +1,3 @@
-
 diff=10000000;
 time=1;
 result=0;
@@ -6,7 +5,7 @@ result=0;
 p=[0.0000593,0.0000296,0.0000205,0.000275,0.00004];
 tspan = 0:1:40000;
 tic;
-[t,x]=ode45(@(t,x)OdeSystem(t,x,p),tspan,[100,0,0,0,0]);
+[t,x]=ode23s(@(t,x)OdeSystem(t,x,p),tspan,[100,0,0,0,0]);
 toc;
 filename='main.txt';
 data=csvread(filename);

@@ -2,7 +2,7 @@ function [ Ref_Set ] = Ref_Set_Generation_First( S )
 best=6;
 Result = Simulate(S);
 Result = sortrows(Result,6);
-Result(:,6)=[];
+% Result(:,6)=[];
 Ref_Set=[];
 h=best/2;
 m=size(S,1);
@@ -12,7 +12,6 @@ d=d+realmax;
 for i=1:h
     Ref_Set(i,:)=Result(i,:);
 end
-
 for i = 1:h
     Point1 = Ref_Set(i,:);
     Diff = [];
