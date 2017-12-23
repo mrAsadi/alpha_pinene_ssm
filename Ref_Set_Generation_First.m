@@ -1,6 +1,5 @@
-function [ Ref_Set ] = Ref_Set_Generation_First( S )
-best=6;
-Result = Simulate(S);
+function [ Ref_Set ] = Ref_Set_Generation_First( S ,expt,expx,best )
+Result = Simulate_Second(S,expt,expx);
 Result = sortrows(Result,6);
 % Result(:,6)=[];
 Ref_Set=[];
@@ -34,4 +33,3 @@ for i = 1:h
     Result(index,:) = [];
 end
 end
-
