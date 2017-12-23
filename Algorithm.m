@@ -15,8 +15,8 @@ b = size(Ref_Set,1);
 result_curve = [];
 % while(stat == true)
 tic;
-for counter = 1:100
-    % counter = counter+1;
+for counter = 1:60
+%     counter = counter+1;
     Comb = Combination(Ref_Set,b);
     simulated = Simulate_Second(Comb,expt,expx);
     simulated = sortrows(simulated,6);
@@ -37,4 +37,3 @@ end
 testX(testX==0) = nan ;
 figure;
 plot(tt,y,tt,testX,'.');
->>>>>>> 2c2319c
