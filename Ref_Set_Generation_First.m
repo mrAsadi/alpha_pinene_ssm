@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-function [ Ref_Set ] = Ref_Set_Generation_First( S,expt,expx )
-best=6;
-Result = Simulate(S,expt,expx);
-=======
 function [ Ref_Set ] = Ref_Set_Generation_First( S ,expt,expx,best )
 Result = Simulate_Second(S,expt,expx);
->>>>>>> 2c2319c
 Result = sortrows(Result,6);
 % Result(:,6)=[];
 Ref_Set=zeros(6,6);
