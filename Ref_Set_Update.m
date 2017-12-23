@@ -1,7 +1,6 @@
-function [ Ref_Set,Combinations ] = Ref_Set_Update( Ref_Set,Combinations )
+function [ Ref_Set ] = Ref_Set_Update( Ref_Set,Combinations )
 comb_count = size(Combinations,1);
 ref_count = size(Ref_Set,1);
-ref_temp = Ref_Set;
 for i = 1:comb_count
    candidate = Combinations(i,:);
    index=0;
@@ -12,8 +11,7 @@ for i = 1:comb_count
        end
    end
    if(index ~= 0)
-       ref_temp(index,:) = candidate;
+       Ref_Set(index,:) = candidate;
    end
 end
-Ref_Set = ref_temp;
 end
