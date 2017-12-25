@@ -4,25 +4,39 @@ filename = 'main_1.txt';
 data=csvread(filename);
 expt=data(:,1);
 expx=data(1:8,2:6);
-pop=100;best=10;sub_range=4;param_count=5;
+pop=100;best=10;sub_range=4;param_count=5;f_rebuild=10^-1*ones(1,6);
 Population = Log_Init(pop,sub_range,param_count);
-Ref_Set = Ref_Set_Generation_First(Population,expt,expx,best);
+Population = Simulate_Second(Population,expt,expx);
+Population = sortrows(Population,6);
+Ref_Set = Ref_Set_Generation_First(Population,best);
+
 b = size(Ref_Set,1);
 % t = timer('TimerFcn', 'stat = false;/','StartDelay',1200);
 % start(t)
 % stat = true;
-total=50;
+total=5;
+tot=5;
 result_curve = zeros(total,1);
 % while(stat == true)
 tic;
 for counter = 1:total
 %     counter = counter+1;
-    Combinations = Combination(Ref_Set,b);
-    simulated = Simulate_Second(Combinations,expt,expx);
-    simulated = sortrows(simulated,6);
-    Ref_Set = Ref_Set_Update(Ref_Set,simulated);
-    result_curve(counter,:) = Ref_Set(1,6);
+
+% check for standard deviation of ref_set values for preventing stuck in
+% flat regions and adding new diverse vector by distance filter
+%     f_reb = std(Ref_Set);
+%     if(f_reb > f_rebuild)
+        Combinations = Combination(Ref_Set,b);
+        simulated = Simulate_Second(Combinations,expt,expx);
+        simulated = sortrows(simulated,6);
+        Ref_Set = Ref_Set_Update(Ref_Set,simulated);
+        result_curve(counter,:) = Ref_Set(1,6);
+%     else
+%         Ref_Set_Temp = Ref_Set_Generation_Second(Population,Ref_Set);
+%         Ref_Set=Rebuild_Ref_Set(Ref_Set,Ref_Set_Temp);
+%     end
 end
+
 toc;
 plot(result_curve(:,1));
 tspan = 0:1:40000;
@@ -37,4 +51,5 @@ end
 testX(testX==0) = nan ;
 figure;
 plot(tt,y,tt,testX,'.');
-disp(Ref_Set(1,6));
+Best=Ref_Set(1,6);
+disp(Best);

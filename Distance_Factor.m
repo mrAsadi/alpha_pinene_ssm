@@ -1,4 +1,4 @@
-function [ d_vec ] = Distance_Factor( inp_mat,inp_vec )
+function [ index ] = Distance_Factor( inp_mat,inp_vec )
     diff = [];
     m_size = size(inp_mat,1);
     for j = 1:m_size
@@ -14,7 +14,6 @@ function [ d_vec ] = Distance_Factor( inp_mat,inp_vec )
            index = j;
         end
     end
-    d_vec(1 , :) = inp_mat(index,:);
 end
 
 

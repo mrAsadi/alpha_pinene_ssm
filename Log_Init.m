@@ -19,19 +19,41 @@ for i=1:param_count
         sub_ranges_up(i,j)=xli* 10^(sub_range*(j));
     end
 end
-%generate first diverse variable vectors from defined bounds
 
-for i=1:param_count
-    for j=1:sub_range
-        A=sub_ranges_low(i,j);
-        B=sub_ranges_up(i,j);
-        variable=A+((B-A)*rand);
-        S(j,i)=variable;
-    end
+%my idea : insert all ranges in population
+index=1;
+for i=1:sub_range
+    S(index,:)=sub_ranges_low(:,i);
+    S(index+1,:)=sub_ranges_up(:,i);
+    index=index+1;
 end
-%generate all other diverse variables 
+index=index+1;
+for i=1:sub_range
+    A=sub_ranges_low(:,i);
+    B=sub_ranges_up(:,i);
+    S(index,:)=(A+B)/2;
+    index=index+1;
+end
 
-for t=sub_range+1:pop
+for i=1:sub_range
+    A=sub_ranges_low(:,i);
+    B=sub_ranges_up(:,i);
+    S(index,:)=((A+B)/2).*rand(5,1);
+    index=index+1;
+end
+
+%generate first diverse variable vectors from defined bounds
+for i=1:sub_range
+    A = sub_ranges_low(:,i);
+    B = sub_ranges_up(:,i);
+    variable(i,:)=A+((B-A).*rand(5,1));
+    S(index,:)=variable(i,:);
+    index=index+1;
+end
+
+%generate all other diverse variables
+
+for t=index:pop
     for i=1:param_count
        for j=1:sub_range
            sums=0;
@@ -56,10 +78,4 @@ for t=sub_range+1:pop
        S(t,i)=new_variable;
     end
 end
-%generate Ref for seceond reference set generation strategy
-Ref=ones(3,param_count);
-A=sub_ranges_low(1,j);
-B=sub_ranges_up(i,j);
-C=(B-A)/2;
-Ref(1,:)=A; 
 end
