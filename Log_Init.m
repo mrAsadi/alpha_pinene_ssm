@@ -1,7 +1,7 @@
-function [ S,Ref ] = Log_Init(pop,sub_range,param_count)
+function [ S ] = Log_Init(pop,sub_range,param_count)
 S=[];
-up=10^4;
-low=10^-12;
+up=0;
+low=-12;
 frequencies=ones(param_count,sub_range);
 sub_ranges_low=zeros(param_count,sub_range);
 sub_ranges_up=zeros(param_count,sub_range);
@@ -13,10 +13,14 @@ bounds(:,2)=up;
 prob=[];
 %generate bounds for each subranges
 for i=1:param_count
+   xli=bounds(i,1);
+   xui=bounds(i,2);
+   ranges(i,:)= logspace(xli,xui,sub_range+1);
+end
+for i=1:param_count
     for j=1:sub_range
-        xli=bounds(i,1);
-        sub_ranges_low(i,j)=xli* 10^(sub_range*(j-1));
-        sub_ranges_up(i,j)=xli* 10^(sub_range*(j));
+        sub_ranges_low(i,j)=ranges(i,j);
+        sub_ranges_up(i,j)=ranges(i,j+1);
     end
 end
 
