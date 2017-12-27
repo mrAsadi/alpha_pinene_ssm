@@ -5,7 +5,7 @@ data = csvread(filename);
 expt = data(:,1);
 expx = data(1:8,2:6);
 pop = 100; best = 10; sub_range = 10; param_count = 5; rebuild_trasholde = 10;
-total = 60; no_improvement_pop_rebuild = 10;
+total = 41; no_improvement_pop_rebuild = 10;
 Population = Log_Init(pop,sub_range,param_count);
 Population = Simulate_Second(Population,expt,expx);
 Population = sortrows(Population,6);
